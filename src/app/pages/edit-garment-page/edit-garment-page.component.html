@@ -1,0 +1,95 @@
+<div class="page">
+  <a routerLink="/inventory" class="back-link">← Volver al inventario</a>
+
+  <div class="layout">
+    <section class="preview">
+      <p class="hero-label">Detalle de prenda</p>
+      <div class="image-wrapper">
+        <img [src]="image()" [alt]="name()" />
+      </div>
+      <h1 class="preview-title">{{ name() }}</h1>
+      <p class="preview-detail"><span>Tipo</span> {{ type() }}</p>
+      <p class="preview-detail"><span>Color</span> {{ color() }}</p>
+      <p class="preview-detail"><span>Talla</span> {{ size() }}</p>
+    </section>
+
+    <section class="form-section">
+      <p class="hero-label">Editar</p>
+      <h2 class="title">Modificar prenda</h2>
+      <p class="subtitle">Actualiza la información de tu prenda y guarda los cambios.</p>
+      <div class="divider"></div>
+
+      <form class="form" (submit)="save($event)">
+        <div class="label">
+          <label for="garmentName">Nombre de la prenda</label>
+          <input
+            class="inputField"
+            id="garmentName"
+            name="garmentName"
+            [value]="name()"
+            (input)="updateName($event)"
+            required
+          />
+        </div>
+
+        <div class="label">
+          <label for="garmentType">Tipo de prenda</label>
+          <select
+            class="inputField"
+            id="garmentType"
+            name="garmentType"
+            [value]="type()"
+            (change)="updateType($event)"
+            required
+          >
+            @for (garmentType of types; track garmentType) {
+              <option [value]="garmentType">{{ garmentType }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="label">
+          <label for="garmentColor">Color</label>
+          <input
+            class="inputField"
+            id="garmentColor"
+            name="garmentColor"
+            [value]="color()"
+            (input)="updateColor($event)"
+            required
+          />
+        </div>
+
+        <div class="label">
+          <label for="garmentSize">Talla</label>
+          <select
+            class="inputField"
+            id="garmentSize"
+            name="garmentSize"
+            [value]="size()"
+            (change)="updateSize($event)"
+            required
+          >
+            @for (garmentSize of sizes; track garmentSize) {
+              <option [value]="garmentSize">{{ garmentSize }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="label">
+          <label for="garmentImage">Imagen (URL)</label>
+          <input
+            class="inputField"
+            id="garmentImage"
+            name="garmentImage"
+            [value]="image()"
+            (input)="updateImage($event)"
+            required
+          />
+        </div>
+
+        <button class="button" type="submit">Guardar cambios</button>
+      </form>
+    </section>
+  </div>
+</div>

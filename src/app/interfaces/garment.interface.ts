@@ -1,4 +1,5 @@
 export interface Garment {
+  id: string;
   name: string;
   type: string;
   color: string;

@@ -75,8 +75,10 @@
 </section>
 
 <section class="container">
-  @for (garment of filteredGarments(); track garment.name) {
-    <app-garment-card [garment]="garment"></app-garment-card>
+  @for (garment of filteredGarments(); track garment.id) {
+    <a [routerLink]="['/inventory', garment.id]" class="card-link">
+      <app-garment-card [garment]="garment"></app-garment-card>
+    </a>
   } @empty {
     <p class="empty-state">No se encontraron prendas con esos filtros.</p>
   }

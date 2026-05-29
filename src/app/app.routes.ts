@@ -7,10 +7,12 @@ import { NewGarmentPageComponent } from './pages/new-garment-page/new-garment-pa
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
 import { InventoryPageComponent } from './pages/inventory-page/inventory-page.component';
+import { EditGarmentPageComponent } from './pages/edit-garment-page/edit-garment-page.component';
 
 export const routes: Routes = [
     { path: 'home', component: HomePageComponent},
     { path: 'inventory', component: InventoryPageComponent},
+    { path: 'inventory/:id', component: EditGarmentPageComponent},
     { path: 'login', component: LoginPageComponent},
     { path: 'register', component: RegisterPageComponent},
     { path: 'about', component: AboutPageComponent},
