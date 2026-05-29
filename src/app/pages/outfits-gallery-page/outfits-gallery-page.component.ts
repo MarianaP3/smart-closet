@@ -1,10 +1,11 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { GarmentCardComponent } from '../../components/garment-card/garment-card.component';
 import { OutfitService } from '../../services/outfit.service';
 
 @Component({
   selector: 'app-outfits-gallery-page',
-  imports: [GarmentCardComponent],
+  imports: [GarmentCardComponent, RouterLink],
   templateUrl: './outfits-gallery-page.component.html',
   styleUrl: './outfits-gallery-page.component.css',
 })

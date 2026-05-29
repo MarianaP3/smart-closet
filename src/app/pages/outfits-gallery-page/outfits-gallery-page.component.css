@@ -1,4 +1,9 @@
 .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 24px;
   max-width: 1100px;
   margin: 48px auto 36px;
   padding: 0 24px;
@@ -6,6 +11,28 @@
 
 .header-text {
   max-width: 620px;
+}
+
+.add-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 24px;
+  background-color: var(--color-text);
+  color: var(--color-surface);
+  border: 1px solid var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.add-button:hover {
+  background-color: transparent;
+  color: var(--color-text);
 }
 
 .hero-label {
@@ -110,12 +137,12 @@
 }
 
 .outfits-list {
-  max-width: 1200px;
+  max-width: 1250px;
   margin: 0 auto;
-  padding: 0 24px 64px;
+  padding: 0 0 64px;
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: 40px;
 }
 
 .outfit-section {
@@ -123,7 +150,7 @@
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-soft);
   padding: 28px 28px 32px;
-  width: 1300px;
+  width: 1250px;
 }
 
 .outfit-header {

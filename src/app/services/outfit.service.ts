@@ -64,4 +64,12 @@ export class OutfitService {
       .map((id) => this.garmentService.getById(id))
       .filter((garment): garment is Garment => garment !== undefined);
   }
+
+  addOutfit(outfit: Omit<Outfit, 'id'>): void {
+    const nextId = String(
+      Math.max(0, ...this.outfits().map((item) => Number(item.id))) + 1,
+    );
+
+    this.outfits.update((outfits) => [...outfits, { id: nextId, ...outfit }]);
+  }
 }
