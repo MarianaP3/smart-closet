@@ -1,0 +1,148 @@
+.register-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 220px);
+  padding: 40px 20px 60px;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-soft);
+  padding: 48px 40px 40px;
+  text-align: center;
+}
+
+.hero-label {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0 0 12px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-weight: 600;
+  margin: 0 0 12px;
+  color: var(--color-text);
+  line-height: 1.1;
+}
+
+.subtitle {
+  font-size: 0.88rem;
+  font-weight: 300;
+  color: var(--color-text-muted);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.divider {
+  width: 48px;
+  height: 1px;
+  background-color: var(--color-accent);
+  margin: 28px auto 32px;
+}
+
+.register-form {
+  text-align: left;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.field label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+
+.inputField {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: var(--color-text);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.inputField::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.6;
+}
+
+.inputField:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  background-color: var(--color-surface);
+}
+
+.form-options {
+  margin-bottom: 28px;
+}
+
+.checkbox-label {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+.checkbox-label input {
+  accent-color: var(--color-accent);
+  margin-top: 2px;
+}
+
+.button {
+  width: 100%;
+  padding: 14px 32px;
+  background-color: var(--color-text);
+  color: var(--color-surface);
+  border: 1px solid var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.button:hover {
+  background-color: transparent;
+  color: var(--color-text);
+}
+
+.login-text {
+  margin: 28px 0 0;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.login-link {
+  color: var(--color-accent-dark);
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 4px;
+  transition: color 0.2s ease;
+}
+
+.login-link:hover {
+  color: var(--color-text);
+}

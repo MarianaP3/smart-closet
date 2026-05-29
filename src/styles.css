@@ -1,18 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
 :root {
-  --color-bg: #faf7f2;
-  --color-surface: #ffffff;
-  --color-text: #1a1a1a;
-  --color-text-muted: #7a7570;
-  --color-accent: #b8956a;
-  --color-accent-dark: #96784f;
-  --color-accent-light: #e8dcc8;
-  --color-border: #e0d5c7;
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-body: 'Montserrat', sans-serif;
-  --shadow-soft: 0 4px 24px rgba(26, 26, 26, 0.08);
-  --shadow-hover: 0 12px 40px rgba(26, 26, 26, 0.14);
+  --color-pink: #DC4F7C;
+  --color-red: #C42B34;
+  --color-cream: #FCE9AB;
+  --color-orange: #FC8A2D;
+  --color-olive: #9E9820;
+
+  --color-bg: var(--color-cream);
+  --color-surface: #fffef6;
+  --color-text: var(--color-red);
+  --color-text-muted: #7a7418;
+  --color-accent: var(--color-pink);
+  --color-accent-dark: var(--color-red);
+  --color-accent-light: #fdf3c8;
+  --color-secondary: var(--color-orange);
+  --color-border: rgba(196, 43, 52, 0.2);
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Playfair Display', Georgia, serif;
+
+  --shadow-soft: 0 4px 24px rgba(196, 43, 52, 0.1);
+  --shadow-hover: 0 12px 40px rgba(196, 43, 52, 0.18);
 }
 
 *,
@@ -26,6 +35,6 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.6;
 }

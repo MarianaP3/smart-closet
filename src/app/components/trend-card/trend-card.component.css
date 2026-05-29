@@ -69,10 +69,10 @@
 }
 
 .highlight {
-  color: var(--color-accent-dark);
-  font-weight: 500;
+  color: var(--color-orange);
+  font-weight: 600;
 }
 
 .highlight span {
-  color: var(--color-accent-dark);
+  color: var(--color-orange);
 }

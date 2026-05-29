@@ -24,7 +24,7 @@
   font-family: var(--font-body);
   font-size: 0.65rem;
   font-weight: 400;
-  color: var(--color-accent);
+  color: var(--color-cream);
   letter-spacing: 0.35em;
   text-transform: uppercase;
 }
@@ -36,7 +36,7 @@
   flex-wrap: wrap;
   gap: 8px 32px;
   padding: 16px 20px 20px;
-  border-top: 1px solid rgba(184, 149, 106, 0.25);
+  border-top: 1px solid rgba(252, 233, 171, 0.25);
 }
 
 .menuItem {
@@ -54,7 +54,7 @@
 }
 
 .menuItem:hover {
-  color: var(--color-accent);
+  color: var(--color-cream);
 }
 
 .menuItem svg {
@@ -62,9 +62,9 @@
 }
 
 .menuItem--accent {
-  color: var(--color-accent);
+  color: var(--color-orange);
 }
 
 .menuItem--accent:hover {
-  color: var(--color-surface);
+  color: var(--color-cream);
 }

@@ -5,10 +5,12 @@ import { ContactPageComponent } from './pages/contact-page/contact-page.componen
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
 import { NewCountryPageComponent } from './pages/new-country-page/new-country-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { RegisterPageComponent } from './pages/register-page/register-page.component';
 
 export const routes: Routes = [
     { path: 'home', component: HomePageComponent},
     { path: 'login', component: LoginPageComponent},
+    { path: 'register', component: RegisterPageComponent},
     { path: 'about', component: AboutPageComponent},
     { path: 'contact', component: ContactPageComponent},
     { path: '', redirectTo: '/home', pathMatch: 'full' },
