@@ -60,3 +60,11 @@
 .menuItem svg {
   opacity: 0.7;
 }
+
+.menuItem--accent {
+  color: var(--color-accent);
+}
+
+.menuItem--accent:hover {
+  color: var(--color-surface);
+}
