@@ -1,161 +1,76 @@
 import { Component, signal } from '@angular/core';
-import { Country } from '../../interfaces/country.interface';
-import { ControlsComponent } from '../../components/controls/controls.component';
-import { CountryCardComponent } from '../../components/country-card/country-card.component';
+import { RouterLink } from '@angular/router';
+import { TrendGarment } from '../../interfaces/trend-garment.interface';
+import { FashionWeek } from '../../interfaces/fashion-week.interface';
+import { TrendCardComponent } from '../../components/trend-card/trend-card.component';
+import { FashionWeekCardComponent } from '../../components/fashion-week-card/fashion-week-card.component';
 
 @Component({
   selector: 'app-home-page',
-  imports: [CountryCardComponent, ControlsComponent],
+  imports: [TrendCardComponent, FashionWeekCardComponent, RouterLink],
   templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.css'
+  styleUrl: './home-page.component.css',
 })
 export class HomePageComponent {
-  public country = signal<Country>({
-    name: 'Spain',
-    capital: 'Madrid',
-    region: 'Europe',
-    population: 48300000,
-    flag: 'https://flagcdn.com/es.svg',
-  });
-
-  public countries = signal<Country[]>([
+  public trendingGarments = signal<TrendGarment[]>([
     {
-      name: 'United States',
-      capital: 'Washington, D.C.',
-      region: 'Americas',
-      population: 334900000,
-      flag: 'https://flagcdn.com/us.svg',
+      name: 'Blazer oversize',
+      type: 'Chaqueta',
+      style: 'Minimalista',
+      trendScore: 96,
+      image: 'https://images.unsplash.com/photo-1594938298603-c8148c726dae?w=400&h=500&fit=crop',
     },
     {
-      name: 'Afghanistan',
-      capital: 'Kabul',
-      region: 'Asia',
-      population: 40218234,
-      flag: 'https://upload.wikimedia.org/wikipedia/commons/5/5c/Flag_of_the_Taliban.svg',
+      name: 'Vestido midi satinado',
+      type: 'Vestido',
+      style: 'Elegante',
+      trendScore: 93,
+      image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop',
     },
     {
-      name: 'Albania',
-      capital: 'Tirana',
-      region: 'Europe',
-      population: 2837743,
-      flag: 'https://flagcdn.com/al.svg',
+      name: 'Pantalón wide leg',
+      type: 'Pantalón',
+      style: 'Casual chic',
+      trendScore: 91,
+      image: 'https://images.unsplash.com/photo-1594633312681-425a7b956cc9?w=400&h=500&fit=crop',
     },
     {
-      name: 'Argentina',
-      capital: 'Buenos Aires',
-      region: 'Americas',
-      population: 45810000,
-      flag: 'https://flagcdn.com/ar.svg',
-    },
-    {
-      name: 'Australia',
-      capital: 'Canberra',
-      region: 'Oceania',
-      population: 26010000,
-      flag: 'https://flagcdn.com/au.svg',
-    },
-    {
-      name: 'Brazil',
-      capital: 'Brasília',
-      region: 'Americas',
-      population: 216400000,
-      flag: 'https://flagcdn.com/br.svg',
-    },
-    {
-      name: 'Canada',
-      capital: 'Ottawa',
-      region: 'Americas',
-      population: 38900000,
-      flag: 'https://flagcdn.com/ca.svg',
-    },
-    {
-      name: 'China',
-      capital: 'Beijing',
-      region: 'Asia',
-      population: 1412000000,
-      flag: 'https://flagcdn.com/cn.svg',
-    },
-    {
-      name: 'Egypt',
-      capital: 'Cairo',
-      region: 'Africa',
-      population: 112700000,
-      flag: 'https://flagcdn.com/eg.svg',
-    },
-    {
-      name: 'France',
-      capital: 'Paris',
-      region: 'Europe',
-      population: 67000000,
-      flag: 'https://flagcdn.com/fr.svg',
-    },
-    {
-      name: 'Germany',
-      capital: 'Berlin',
-      region: 'Europe',
-      population: 83200000,
-      flag: 'https://flagcdn.com/de.svg',
-    },
-    {
-      name: 'India',
-      capital: 'New Delhi',
-      region: 'Asia',
-      population: 1429000000,
-      flag: 'https://flagcdn.com/in.svg',
-    },
-    {
-      name: 'Japan',
-      capital: 'Tokyo',
-      region: 'Asia',
-      population: 125000000,
-      flag: 'https://flagcdn.com/jp.svg',
-    },
-    {
-      name: 'Mexico',
-      capital: 'Mexico City',
-      region: 'Americas',
-      population: 126000000,
-      flag: 'https://flagcdn.com/mx.svg',
-    },
-    {
-      name: 'Nigeria',
-      capital: 'Abuja',
-      region: 'Africa',
-      population: 227000000,
-      flag: 'https://flagcdn.com/ng.svg',
-    },
-    {
-      name: 'South Africa',
-      capital: 'Pretoria',
-      region: 'Africa',
-      population: 60400000,
-      flag: 'https://flagcdn.com/za.svg',
-    },
-    {
-      name: 'Spain',
-      capital: 'Madrid',
-      region: 'Europe',
-      population: 48300000,
-      flag: 'https://flagcdn.com/es.svg',
-    },
-    {
-      name: 'United Kingdom',
-      capital: 'London',
-      region: 'Europe',
-      population: 67700000,
-      flag: 'https://flagcdn.com/gb.svg',
+      name: 'Bolso estructurado',
+      type: 'Accesorio',
+      style: 'Atemporal',
+      trendScore: 88,
+      image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400&h=500&fit=crop',
     },
   ]);
 
-  orderByName(): void {
-    this.countries.update((countries) =>
-      [...countries].sort((a, b) => a.name.localeCompare(b.name)),
-    );
-  }
-
-  orderByPopulation(): void {
-    this.countries.update((countries) =>
-      [...countries].sort((a, b) => a.population - b.population),
-    );
-  }
+  public fashionWeeks = signal<FashionWeek[]>([
+    {
+      name: 'Paris Fashion Week',
+      season: 'SS 2026',
+      city: 'París, Francia',
+      showCount: 92,
+      image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400&h=500&fit=crop',
+    },
+    {
+      name: 'Milan Fashion Week',
+      season: 'FW 2025',
+      city: 'Milán, Italia',
+      showCount: 78,
+      image: 'https://images.unsplash.com/photo-1513581166391-887a96ddeafd?w=400&h=500&fit=crop',
+    },
+    {
+      name: 'New York Fashion Week',
+      season: 'SS 2026',
+      city: 'Nueva York, EE.UU.',
+      showCount: 85,
+      image: 'https://images.unsplash.com/photo-1496442226666-8d0d0ee62ea6?w=400&h=500&fit=crop',
+    },
+    {
+      name: 'London Fashion Week',
+      season: 'FW 2025',
+      city: 'Londres, Reino Unido',
+      showCount: 71,
+      image: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=400&h=500&fit=crop',
+    },
+  ]);
 }

@@ -1,0 +1,14 @@
+<div class="card">
+  <div class="image-wrapper">
+    <img [src]="trend().image" [alt]="trend().name" />
+  </div>
+  <div class="card-body">
+    <p class="card-label">En tendencia</p>
+    <p class="title">{{ trend().name }}</p>
+    <p class="detail"><span>Tipo</span> {{ trend().type }}</p>
+    <p class="detail" [class.highlight]="trend().trendScore >= 90">
+      <span>Tendencia</span> {{ trend().trendScore }}%
+    </p>
+    <p class="detail"><span>Estilo</span> {{ trend().style }}</p>
+  </div>
+</div>

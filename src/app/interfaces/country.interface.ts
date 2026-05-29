@@ -1,8 +1,7 @@
 export interface Country {
     name: string;
     capital: string;
-    region: 'Americas' | 'Europe' | 'Asia' | 'Africa' | 'Oceania';
+    region: string;
     population: number;
     flag: string;
 }
-

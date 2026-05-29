@@ -1,0 +1,14 @@
+<div class="card">
+  <div class="image-wrapper">
+    <img [src]="fashionWeek().image" [alt]="fashionWeek().name" />
+  </div>
+  <div class="card-body">
+    <p class="card-label">Fashion Week</p>
+    <p class="title">{{ fashionWeek().name }}</p>
+    <p class="detail"><span>Temporada</span> {{ fashionWeek().season }}</p>
+    <p class="detail" [class.highlight]="fashionWeek().showCount >= 80">
+      <span>Desfiles</span> {{ fashionWeek().showCount | number }}
+    </p>
+    <p class="detail"><span>Ciudad</span> {{ fashionWeek().city }}</p>
+  </div>
+</div>

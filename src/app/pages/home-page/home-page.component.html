@@ -1,16 +1,59 @@
-<div class="hero">
-    <p class="hero-label">Inicio</p>
-    <h1 class="title">Mi Closet Inteligente</h1>
-    <p class="subtitle">Explora tus prendas y descubre la esencia única de cada outfit.</p>
-    <div class="hero-divider"></div>
-</div>
+<section class="section">
+  <div class="section-header">
+    <p class="section-label">01 — Tendencias</p>
+    <h2 class="section-title">Prendas en tendencia</h2>
+    <p class="section-subtitle">
+      Lo más buscado esta temporada en moda global.
+    </p>
+  </div>
+  <div class="container">
+    @for (garment of trendingGarments(); track garment.name) {
+      <app-trend-card [trend]="garment"></app-trend-card>
+    }
+  </div>
+</section>
 
-<div class="filters">
-    <app-controls (sortByName)="orderByName()" (sortByPopulation)="orderByPopulation()"></app-controls>
-</div>
+<section class="hero">
+  <p class="hero-label">Descubre SmartCloset</p>
+  <h1 class="title">Tu estilo, siempre en tendencia</h1>
+  <p class="subtitle">
+    Explora las prendas del momento, los desfiles más importantes del mundo y
+    conoce cómo SmartCloset puede transformar tu closet.
+  </p>
+  <div class="hero-divider"></div>
+  <a routerLink="/login" class="hero-cta">Inicia sesión para ver tu closet</a>
+</section>
 
-<div class="container">
-    @for (country of countries(); track country.name) {
-    <app-country-card [country]="country"></app-country-card>
-  }
-</div>
+<section class="section section--alt">
+  <div class="section-header">
+    <p class="section-label">02 — Desfiles</p>
+    <h2 class="section-title">Fashion Week</h2>
+    <p class="section-subtitle">
+      Las semanas de la moda más influyentes del planeta.
+    </p>
+  </div>
+  <div class="container">
+    @for (week of fashionWeeks(); track week.name) {
+      <app-fashion-week-card [fashionWeek]="week"></app-fashion-week-card>
+    }
+  </div>
+</section>
+
+<section class="section section--about">
+  <div class="about-content">
+    <p class="section-label">03 — SmartCloset</p>
+    <h2 class="section-title">Tu closet inteligente</h2>
+    <p class="about-text">
+      SmartCloset te ayuda a organizar tu guardarropa, descubrir combinaciones y
+      mantenerte al día con las tendencias. Olvídate de buscar entre montañas de
+      ropa: encuentra lo que necesitas en segundos y crea outfits que reflejen
+      tu estilo.
+    </p>
+    <ul class="about-features">
+      <li>Organiza tus prendas por tipo, color y temporada</li>
+      <li>Descubre tendencias y fashion weeks en un solo lugar</li>
+      <li>Accede a tu closet personal al iniciar sesión</li>
+    </ul>
+    <a routerLink="/about" class="about-link">Conoce más sobre nosotros</a>
+  </div>
+</section>

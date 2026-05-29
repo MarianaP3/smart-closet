@@ -1,7 +1,7 @@
 .hero {
   text-align: center;
-  margin: 48px auto 36px;
-  max-width: 640px;
+  margin: 48px auto 56px;
+  max-width: 680px;
   padding: 0 20px;
 }
 
@@ -36,7 +36,64 @@
   width: 48px;
   height: 1px;
   background-color: var(--color-accent);
-  margin: 28px auto 0;
+  margin: 28px auto 24px;
+}
+
+.hero-cta {
+  display: inline-block;
+  padding: 12px 28px;
+  border: 1px solid var(--color-text);
+  color: var(--color-text);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.hero-cta:hover {
+  background-color: var(--color-text);
+  color: var(--color-surface);
+}
+
+.section {
+  padding: 48px 24px 56px;
+}
+
+.section--alt {
+  background-color: var(--color-accent-light);
+}
+
+.section-header {
+  text-align: center;
+  max-width: 560px;
+  margin: 0 auto 36px;
+}
+
+.section-label {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0 0 10px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin: 0 0 12px;
+  color: var(--color-text);
+}
+
+.section-subtitle {
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: var(--color-text-muted);
+  margin: 0;
+  line-height: 1.6;
 }
 
 .container {
@@ -44,12 +101,66 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 24px;
-  padding: 0 24px 48px;
 }
 
-.filters {
-  text-align: right;
-  margin-bottom: 28px;
-  padding: 0 24px;
-  width: 100%;
+.section--about {
+  padding-bottom: 64px;
+}
+
+.about-content {
+  max-width: 620px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.about-text {
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: var(--color-text-muted);
+  line-height: 1.8;
+  margin: 0 0 24px;
+}
+
+.about-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px;
+  text-align: left;
+  display: inline-block;
+}
+
+.about-features li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 10px;
+  font-size: 0.85rem;
+  color: var(--color-text);
+  font-weight: 300;
+}
+
+.about-features li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-accent);
+  border-radius: 50%;
+}
+
+.about-link {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent-dark);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-accent);
+  padding-bottom: 4px;
+  transition: color 0.2s ease;
+}
+
+.about-link:hover {
+  color: var(--color-text);
 }
