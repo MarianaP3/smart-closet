@@ -6,6 +6,7 @@ const INITIAL_GARMENTS: Garment[] = [
     id: '1',
     name: 'Top de colores',
     type: 'Tops',
+    categoryId: '1',
     color: 'Multicolor',
     size: 'M',
     image: 'https://i.pinimg.com/736x/17/6f/56/176f568124206ddfb072401fd542e6bc.jpg',
@@ -14,6 +15,7 @@ const INITIAL_GARMENTS: Garment[] = [
     id: '2',
     name: 'Top de rayas',
     type: 'Tops',
+    categoryId: '1',
     color: 'Rosa',
     size: 'S',
     image: 'https://i.pinimg.com/736x/de/0b/de/de0bde6e33692aed2693f2b67b2ebf78.jpg',
@@ -22,6 +24,7 @@ const INITIAL_GARMENTS: Garment[] = [
     id: '3',
     name: 'Top de mezclilla',
     type: 'Tops',
+    categoryId: '1',
     color: 'Azul',
     size: 'S',
     image: 'https://i.pinimg.com/736x/66/7a/43/667a435c4a5b9199f27f8dbdb36ab117.jpg',
@@ -30,6 +33,7 @@ const INITIAL_GARMENTS: Garment[] = [
     id: '4',
     name: 'Top tejido',
     type: 'Tops',
+    categoryId: '1',
     color: 'Blanco',
     size: 'M',
     image: 'https://i.pinimg.com/736x/ff/61/00/ff61001770b1fe818e1d7454c5d6efb9.jpg',
@@ -38,6 +42,7 @@ const INITIAL_GARMENTS: Garment[] = [
     id: '5',
     name: 'Pantalón wide',
     type: 'Bottoms',
+    categoryId: '2',
     color: 'Blanco',
     size: 'S',
     image: 'https://i.pinimg.com/736x/3e/e8/7a/3ee87a4e8a8dbdc701f295abc8ccc475.jpg',
@@ -46,6 +51,7 @@ const INITIAL_GARMENTS: Garment[] = [
     id: '6',
     name: 'Jeans wide',
     type: 'Bottoms',
+    categoryId: '2',
     color: 'Azul',
     size: '22',
     image: 'https://i.pinimg.com/736x/cd/fc/2e/cdfc2e33fa4c604f12c3181e7b63c188.jpg',
@@ -54,6 +60,7 @@ const INITIAL_GARMENTS: Garment[] = [
     id: '7',
     name: 'Falda larga',
     type: 'Bottoms',
+    categoryId: '2',
     color: 'Rosa',
     size: 'XS',
     image: 'https://i.pinimg.com/736x/82/2a/86/822a863f0f7447b6eb285d06c98a706c.jpg',
@@ -62,6 +69,7 @@ const INITIAL_GARMENTS: Garment[] = [
     id: '8',
     name: 'Shorts',
     type: 'Bottoms',
+    categoryId: '2',
     color: 'Blanco',
     size: '22',
     image: 'https://i.pinimg.com/736x/e4/d5/4d/e4d54d29992ae5d707a6f564ee0eb850.jpg',
@@ -70,6 +78,7 @@ const INITIAL_GARMENTS: Garment[] = [
     id: '9',
     name: 'Sneakers',
     type: 'Shoes',
+    categoryId: '3',
     color: 'Blanco',
     size: '24',
     image: 'https://i.pinimg.com/736x/4d/cf/d7/4dcfd7e959ef3c11dd1976710b510346.jpg',
@@ -78,6 +87,7 @@ const INITIAL_GARMENTS: Garment[] = [
     id: '10',
     name: 'Sandalias altas',
     type: 'Shoes',
+    categoryId: '3',
     color: 'Café',
     size: '26',
     image: 'https://i.pinimg.com/736x/4e/23/8c/4e238c3c45577536e338e8558a0ec7e8.jpg',
@@ -86,6 +96,7 @@ const INITIAL_GARMENTS: Garment[] = [
     id: '11',
     name: 'Balerinas',
     type: 'Shoes',
+    categoryId: '3',
     color: 'Dorado',
     size: '24',
     image: 'https://i.pinimg.com/736x/29/0c/82/290c82cb0e5b94aec80be0d11bb6c5e5.jpg',
@@ -94,6 +105,7 @@ const INITIAL_GARMENTS: Garment[] = [
     id: '12',
     name: 'Cowboy boots',
     type: 'Shoes',
+    categoryId: '3',
     color: 'Café',
     size: '24',
     image: 'https://i.pinimg.com/736x/8f/49/c0/8f49c04ed4726423857e22ccda3bf033.jpg',
@@ -102,6 +114,7 @@ const INITIAL_GARMENTS: Garment[] = [
     id: '13',
     name: 'Collar largo',
     type: 'Accessories',
+    categoryId: '4',
     color: 'Café',
     size: 'Única',
     image: 'https://i.pinimg.com/736x/fa/12/65/fa12651fd58143ce8ce1da87ace73a85.jpg',
@@ -110,6 +123,7 @@ const INITIAL_GARMENTS: Garment[] = [
     id: '14',
     name: 'Diadema',
     type: 'Accessories',
+    categoryId: '4',
     color: 'Dorado',
     size: 'Única',
     image: 'https://i.pinimg.com/736x/0f/31/11/0f3111945101ffe3324ff3f2870c94d0.jpg',
@@ -118,6 +132,7 @@ const INITIAL_GARMENTS: Garment[] = [
     id: '15',
     name: 'Mesh hat',
     type: 'Accessories',
+    categoryId: '4',
     color: 'Blanco',
     size: 'Única',
     image: 'https://i.pinimg.com/736x/4f/9f/a9/4f9fa9ebc45c5fafb232ee924df98cde.jpg',
@@ -126,6 +141,7 @@ const INITIAL_GARMENTS: Garment[] = [
     id: '16',
     name: 'Bolso',
     type: 'Accessories',
+    categoryId: '4',
     color: 'Verde',
     size: 'Única',
     image: 'https://i.pinimg.com/736x/0e/cc/a3/0ecca35aa7808e2ca17605afbd586ff5.jpg',
@@ -156,7 +172,17 @@ export class GarmentService {
     );
   }
 
-    deleteGarment(id: string): void {
+  syncTypeFromCategory(categoryId: string, typeName: string): void {
+    this.garments.update((garments) =>
+      garments.map((garment) =>
+        garment.categoryId === categoryId
+          ? { ...garment, type: typeName }
+          : garment,
+      ),
+    );
+  }
+
+  deleteGarment(id: string): void {
     this.garments.update((garments) =>
       garments.filter((garment) => garment.id !== id),
     );

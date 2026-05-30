@@ -2,7 +2,7 @@
   <div class="header-text">
     <p class="hero-label">Mi closet</p>
     <h1 class="title">Inventario</h1>
-    <p class="subtitle">Todas tus prendas en un solo lugar. Filtra por nombre, tipo, color o talla.</p>
+    <p class="subtitle">Todas tus prendas en un solo lugar. Filtra por nombre, categoría, color o talla.</p>
   </div>
   <a routerLink="/new-garment" class="add-button">+ Agregar prenda</a>
 </section>
@@ -22,16 +22,16 @@
     </div>
 
     <div class="filter-field">
-      <label for="filterType">Tipo</label>
+      <label for="filterCategory">Categoría</label>
       <select
-        id="filterType"
+        id="filterCategory"
         class="filter-select"
-        [value]="filterType()"
-        (change)="updateFilterType($event)"
+        [value]="filterCategoryId()"
+        (change)="updateFilterCategory($event)"
       >
-        <option value="">Todos</option>
-        @for (type of types(); track type) {
-          <option [value]="type">{{ type }}</option>
+        <option value="">Todas</option>
+        @for (category of categories(); track category.id) {
+          <option [value]="category.id">{{ category.name }}</option>
         }
       </select>
     </div>

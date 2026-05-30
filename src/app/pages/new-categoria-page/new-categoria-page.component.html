@@ -1,0 +1,46 @@
+<div class="page">
+  <a routerLink="/categorias" class="back-link">← Volver a categorías</a>
+
+  <section class="page-header">
+    <p class="hero-label">Nueva categoría</p>
+    <h1 class="title">Crear categoría</h1>
+    <p class="subtitle">
+      Define un tipo de prenda para clasificar tu inventario, como tops, bottoms o accesorios.
+    </p>
+    <div class="divider"></div>
+  </section>
+
+  <form class="form" (submit)="save($event)">
+    <div class="label">
+      <label for="categoryName">Nombre de la categoría</label>
+      <input
+        class="inputField"
+        id="categoryName"
+        name="categoryName"
+        placeholder="Ej. Abrigos"
+        [value]="name()"
+        (input)="updateName($event)"
+        required
+      />
+    </div>
+
+    <div class="label">
+      <label for="categoryDescription">Descripción (opcional)</label>
+      <textarea
+        class="inputField textarea"
+        id="categoryDescription"
+        name="categoryDescription"
+        rows="3"
+        placeholder="Ej. Prendas para clima frío"
+        [value]="description()"
+        (input)="updateDescription($event)"
+      ></textarea>
+    </div>
+
+    @if (errorMessage()) {
+      <p class="error-message">{{ errorMessage() }}</p>
+    }
+
+    <button class="button" type="submit">Guardar categoría</button>
+  </form>
+</div>

@@ -1,0 +1,66 @@
+<section class="page-header">
+  <div class="header-text">
+    <p class="hero-label">Clasificación</p>
+    <h1 class="title">Mis Categorías</h1>
+    <p class="subtitle">
+      Organiza tu inventario por tipo de prenda. Cada categoría agrupa las prendas que comparten el mismo tipo.
+    </p>
+  </div>
+  <a routerLink="/new-categoria" class="add-button">+ Crear categoría</a>
+</section>
+
+<section class="filters">
+  <div class="filters-row">
+    <div class="filter-field filter-field--search">
+      <label for="filterSearch">Buscar categoría</label>
+      <input
+        id="filterSearch"
+        class="filter-input"
+        type="text"
+        placeholder="Nombre o descripción..."
+        [value]="filterSearch()"
+        (input)="updateFilterSearch($event)"
+      />
+    </div>
+
+    <button class="clear-button" type="button" (click)="clearFilters()">
+      Limpiar filtros
+    </button>
+  </div>
+
+  <p class="results-count">
+    {{ filteredCategories().length }} de {{ categories().length }} categorías
+  </p>
+</section>
+
+<section class="categories-list">
+  @for (category of filteredCategories(); track category.id) {
+    <article class="category-section">
+      <a [routerLink]="['/categorias', category.id]" class="category-header-link">
+        <div class="category-header">
+          <div>
+            <p class="category-label">Categoría</p>
+            <h2 class="category-title">{{ category.name }}</h2>
+            @if (category.description) {
+              <p class="category-description">{{ category.description }}</p>
+            }
+          </div>
+          <div class="category-meta">
+            <span class="meta-count">{{ category.garments.length }} prendas</span>
+            <span class="edit-hint">Editar categoría →</span>
+          </div>
+        </div>
+      </a>
+
+      <div class="garments-grid">
+        @for (garment of category.garments; track garment.id) {
+          <app-garment-card [garment]="garment"></app-garment-card>
+        } @empty {
+          <p class="empty-category">Sin prendas en esta categoría.</p>
+        }
+      </div>
+    </article>
+  } @empty {
+    <p class="empty-state">No se encontraron categorías con esos filtros.</p>
+  }
+</section>

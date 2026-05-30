@@ -8,7 +8,7 @@
         <img [src]="image()" [alt]="name()" />
       </div>
       <h1 class="preview-title">{{ name() }}</h1>
-      <p class="preview-detail"><span>Tipo</span> {{ type() }}</p>
+      <p class="preview-detail"><span>Tipo</span> {{ categoryName() }}</p>
       <p class="preview-detail"><span>Color</span> {{ color() }}</p>
       <p class="preview-detail"><span>Talla</span> {{ size() }}</p>
       <button class="delete-button" type="button" (click)="deleteGarment()">Eliminar prenda</button>
@@ -34,17 +34,17 @@
         </div>
 
         <div class="label">
-          <label for="garmentType">Tipo de prenda</label>
+          <label for="garmentType">Categoría</label>
           <select
             class="inputField"
             id="garmentType"
             name="garmentType"
-            [value]="type()"
-            (change)="updateType($event)"
+            [value]="categoryId()"
+            (change)="updateCategory($event)"
             required
           >
-            @for (garmentType of types; track garmentType) {
-              <option [value]="garmentType">{{ garmentType }}</option>
+            @for (category of categories(); track category.id) {
+              <option [value]="category.id">{{ category.name }}</option>
             }
           </select>
         </div>

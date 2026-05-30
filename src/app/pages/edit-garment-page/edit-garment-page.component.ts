@@ -1,5 +1,6 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { CategoryService } from '../../services/category.service';
 import { GarmentService } from '../../services/garment.service';
 
 @Component({
@@ -12,16 +13,22 @@ export class EditGarmentPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private garmentService = inject(GarmentService);
+  private categoryService = inject(CategoryService);
 
   public garmentId = signal('');
   public name = signal('');
-  public type = signal('');
+  public categoryId = signal('');
   public color = signal('');
   public size = signal('');
   public image = signal('');
 
-  public types = ['Tops', 'Bottoms', 'Shoes', 'Accessories'];
+  public categories = this.categoryService.allCategories;
   public sizes = ['XS', 'S', 'M', 'L', 'XL', '22', '24', '26', 'Única'];
+
+  public categoryName = computed(() => {
+    const category = this.categoryService.getById(this.categoryId());
+    return category?.name ?? '';
+  });
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -40,7 +47,7 @@ export class EditGarmentPageComponent implements OnInit {
 
     this.garmentId.set(garment.id);
     this.name.set(garment.name);
-    this.type.set(garment.type);
+    this.categoryId.set(garment.categoryId);
     this.color.set(garment.color);
     this.size.set(garment.size);
     this.image.set(garment.image);
@@ -50,8 +57,8 @@ export class EditGarmentPageComponent implements OnInit {
     this.name.set((event.target as HTMLInputElement).value);
   }
 
-  updateType(event: Event): void {
-    this.type.set((event.target as HTMLSelectElement).value);
+  updateCategory(event: Event): void {
+    this.categoryId.set((event.target as HTMLSelectElement).value);
   }
 
   updateColor(event: Event): void {
@@ -74,9 +81,16 @@ export class EditGarmentPageComponent implements OnInit {
   save(event: Event): void {
     event.preventDefault();
 
+    const category = this.categoryService.getById(this.categoryId());
+
+    if (!category) {
+      return;
+    }
+
     this.garmentService.updateGarment(this.garmentId(), {
       name: this.name(),
-      type: this.type(),
+      type: category.name,
+      categoryId: this.categoryId(),
       color: this.color(),
       size: this.size(),
       image: this.image(),
