@@ -1,5 +1,6 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
 import { UserService } from '../../../services/user.service';
 
 @Component({
@@ -8,8 +9,13 @@ import { UserService } from '../../../services/user.service';
   templateUrl: './users-page.component.html',
   styleUrl: './users-page.component.css',
 })
-export class UsersPageComponent {
+export class UsersPageComponent implements OnInit {
+  private authService = inject(AuthService);
   private userService = inject(UserService);
+
+  ngOnInit(): void {
+    this.authService.redirectIfNotAdmin();
+  }
 
   public users = this.userService.allUsers;
 

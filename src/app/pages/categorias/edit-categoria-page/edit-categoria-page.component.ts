@@ -1,6 +1,7 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { GarmentCardComponent } from '../../../components/garment-card/garment-card.component';
+import { AuthService } from '../../../services/auth.service';
 import { CategoryService } from '../../../services/category.service';
 
 @Component({
@@ -10,6 +11,7 @@ import { CategoryService } from '../../../services/category.service';
   styleUrl: './edit-categoria-page.component.css',
 })
 export class EditCategoriaPageComponent implements OnInit {
+  private authService = inject(AuthService);
   private categoryService = inject(CategoryService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -26,6 +28,8 @@ export class EditCategoriaPageComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.authService.redirectIfNotAdmin();
+
     const id = this.route.snapshot.paramMap.get('id');
 
     if (!id) {

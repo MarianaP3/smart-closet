@@ -55,5 +55,27 @@ export class AuthService {
     return null;
   }
 
-     
+  isAdmin(): boolean {
+    return this.getRoleFromToken() === 'Administrador';
+  }
+
+  isLoggedIn(): boolean {
+    return !!this.getToken();
+  }
+
+  redirectIfNotAdmin(): void {
+    if (!this.isAdmin()) {
+      this.router.navigate(['/not-found']);
+    }
+  }
+
+  isUser(): boolean {
+    return this.getRoleFromToken() === 'Usuario';
+  }
+
+  redirectIfNotUser(): void {
+    if (!this.isUser()) {
+      this.router.navigate(['/not-found']);
+    }
+  }
 }

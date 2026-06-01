@@ -2,6 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { GarmentCardComponent } from '../../../components/garment-card/garment-card.component';
 import { OutfitService } from '../../../services/outfit.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-outfits-gallery-page',
@@ -11,6 +12,11 @@ import { OutfitService } from '../../../services/outfit.service';
 })
 export class OutfitsGalleryPageComponent {
   private outfitService = inject(OutfitService);
+  private authService = inject(AuthService);
+
+  ngOnInit(): void {
+    this.authService.redirectIfNotUser();
+  }
 
   public outfits = this.outfitService.allOutfits;
 

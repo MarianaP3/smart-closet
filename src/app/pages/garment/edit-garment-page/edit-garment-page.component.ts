@@ -1,5 +1,6 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
 import { CategoryService } from '../../../services/category.service';
 import { GarmentService } from '../../../services/garment.service';
 
@@ -14,6 +15,7 @@ export class EditGarmentPageComponent implements OnInit {
   private router = inject(Router);
   private garmentService = inject(GarmentService);
   private categoryService = inject(CategoryService);
+  private authService = inject(AuthService);
 
   public garmentId = signal('');
   public name = signal('');
@@ -31,6 +33,13 @@ export class EditGarmentPageComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.authService = inject(AuthService);
+
+    if (!this.authService.isUser()) {
+      this.router.navigate(['/not-found']);
+      return;
+    }
+
     const id = this.route.snapshot.paramMap.get('id');
 
     if (!id) {

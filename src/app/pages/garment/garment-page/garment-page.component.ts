@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { GarmentCardComponent } from '../../../components/garment-card/garment-card.component';
 import { CategoryService } from '../../../services/category.service';
 import { GarmentService } from '../../../services/garment.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-inventory-page',
@@ -13,6 +14,11 @@ import { GarmentService } from '../../../services/garment.service';
 export class InventoryPageComponent {
   private garmentService = inject(GarmentService);
   private categoryService = inject(CategoryService);
+  private authService = inject(AuthService);
+
+  ngOnInit(): void {
+    this.authService.redirectIfNotUser();
+  }
 
   public garments = this.garmentService.allGarments;
   public categories = this.categoryService.allCategories;

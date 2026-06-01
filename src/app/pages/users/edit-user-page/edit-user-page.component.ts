@@ -1,5 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
 import { UserService } from '../../../services/user.service';
 
 @Component({
@@ -9,6 +10,7 @@ import { UserService } from '../../../services/user.service';
   styleUrl: './edit-user-page.component.css',
 })
 export class EditUserPageComponent implements OnInit {
+  private authService = inject(AuthService);
   private userService = inject(UserService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -23,6 +25,8 @@ export class EditUserPageComponent implements OnInit {
   public roles: Array<'Usuario' | 'Administrador'> = ['Usuario', 'Administrador'];
 
   ngOnInit(): void {
+    this.authService.redirectIfNotAdmin();
+
     const id = this.route.snapshot.paramMap.get('id');
 
     if (!id) {

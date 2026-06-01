@@ -1,6 +1,7 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { GarmentCardComponent } from '../../../components/garment-card/garment-card.component';
+import { AuthService } from '../../../services/auth.service';
 import { CategoryService } from '../../../services/category.service';
 
 @Component({
@@ -9,8 +10,13 @@ import { CategoryService } from '../../../services/category.service';
   templateUrl: './categorias-page.component.html',
   styleUrl: './categorias-page.component.css',
 })
-export class CategoriasPageComponent {
+export class CategoriasPageComponent implements OnInit {
+  private authService = inject(AuthService);
   private categoryService = inject(CategoryService);
+
+  ngOnInit(): void {
+    this.authService.redirectIfNotAdmin();
+  }
 
   public categories = this.categoryService.allCategories;
 

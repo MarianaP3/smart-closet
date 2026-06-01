@@ -3,6 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { GarmentCardComponent } from '../../../components/garment-card/garment-card.component';
 import { GarmentService } from '../../../services/garment.service';
 import { OutfitService } from '../../../services/outfit.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-new-outfit-page',
@@ -11,9 +12,14 @@ import { OutfitService } from '../../../services/outfit.service';
   styleUrl: './new-outfit-page.component.css',
 })
 export class NewOutfitPageComponent {
+  private authService = inject(AuthService);
   private garmentService = inject(GarmentService);
   private outfitService = inject(OutfitService);
   private router = inject(Router);
+
+  ngOnInit(): void {
+    this.authService.redirectIfNotUser();
+  }
 
   public name = signal('');
   public style = signal('');

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { GarmentCardComponent } from '../../../components/garment-card/garment-card.component';
 import { GarmentService } from '../../../services/garment.service';
 import { OutfitService } from '../../../services/outfit.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-edit-outfit-page',
@@ -11,6 +12,7 @@ import { OutfitService } from '../../../services/outfit.service';
   styleUrl: './edit-outfit-page.component.css',
 })
 export class EditOutfitPageComponent implements OnInit {
+  private authService = inject(AuthService);
   private garmentService = inject(GarmentService);
   private outfitService = inject(OutfitService);
   private route = inject(ActivatedRoute);
@@ -50,6 +52,13 @@ export class EditOutfitPageComponent implements OnInit {
   );
 
   ngOnInit(): void {
+    this.authService.redirectIfNotUser();
+
+    if (!this.authService.isUser()) {
+      this.router.navigate(['/not-found']);
+      return;
+    }
+
     const id = this.route.snapshot.paramMap.get('id');
 
     if (!id) {

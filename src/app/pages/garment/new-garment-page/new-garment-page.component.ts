@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-new-garment-page',
@@ -7,5 +8,10 @@ import { Component } from '@angular/core';
   styleUrl: './new-garment-page.component.css'
 })
 export class NewGarmentPageComponent {
+  private authService = inject(AuthService);
+  ngOnInit(): void {
+    this.authService.redirectIfNotUser();
+  }
+
   sizes = ['XS', 'S', 'M', 'L', 'XL', 'Única'];
 }
