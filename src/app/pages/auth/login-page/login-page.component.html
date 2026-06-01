@@ -15,6 +15,7 @@
           name="email"
           placeholder="tu@correo.com"
           autocomplete="email"
+          [(ngModel)]="username"
         />
       </div>
 
@@ -25,13 +26,15 @@
           type="password"
           id="password"
           name="password"
+          [(ngModel)]="password"
           placeholder="••••••••"
           autocomplete="current-password"
         />
       </div>
 
 
-      <button class="button" type="submit">Entrar</button>
+      <button class="button" type="submit" (click)="onSubmit()">Entrar</button>
+      <p class="error-message">{{ errorMessage }}</p>
     </form>
 
     <p class="register-text">

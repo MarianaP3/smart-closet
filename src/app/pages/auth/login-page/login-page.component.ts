@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../../../app/services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-login-page',
-  imports: [RouterLink],
-  templateUrl: './login-page.component.html',
+  imports: [FormsModule, RouterLink],  templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css',
 })
 export class LoginPageComponent {
@@ -21,6 +21,7 @@ export class LoginPageComponent {
   registrationError: string = '';
 
   onSubmit() {
+    console.log('Login con:', this.username, this.password);
     if (this.username && this.password) {
       this.authService.login(this.username, this.password).subscribe({
         next: (response) => {
@@ -38,30 +39,5 @@ export class LoginPageComponent {
     } else {
       this.errorMessage = 'Por favor, completa todos los campos.';
     }
-  }
-
-  onRegister() {
-    console.log('Registro con:', this.newUsername, this.newPassword);
-  
-    if (!this.newUsername || !this.newPassword) {
-      this.registrationError = 'Por favor, complete todos los campos';
-      return;
-    }
-
-    this.authService.register(this.newUsername, this.newPassword).subscribe(
-      response => {
-        console.log('Usuario registrado con éxito:', response);
-        this.registrationError = "Usuario Registrado con éxito";
-        this.router.navigate(['/login']);
-      },
-      error => {
-        console.error('Error al registrar el usuario:', error);
-        if (error.status === 400 && error.error.msg === 'Username ya existente') {
-          this.registrationError = 'El nombre de usuario ya está registrado. Intenta con otro.';
-        } else {
-          this.registrationError = 'Hubo un error al registrar el usuario. Intenta nuevamente.';
-        }
-      }
-    );
   }
 }

@@ -15,6 +15,7 @@
           name="name"
           placeholder="Tu nombre"
           autocomplete="name"
+          [(ngModel)]="name"
         />
       </div>
 
@@ -27,6 +28,7 @@
           name="email"
           placeholder="tu@correo.com"
           autocomplete="email"
+          [(ngModel)]="email"
         />
       </div>
 
@@ -39,6 +41,7 @@
           name="password"
           placeholder="••••••••"
           autocomplete="new-password"
+          [(ngModel)]="password"
         />
       </div>
 
@@ -51,10 +54,12 @@
           name="confirmPassword"
           placeholder="••••••••"
           autocomplete="new-password"
+          [(ngModel)]="confirmPassword"
         />
       </div>
 
-      <button class="button" type="submit">Crear cuenta</button>
+      <button class="button" type="submit" (click)="onRegister()">Crear cuenta</button>
+      <p class="error-message">{{ registrationError }}</p>
     </form>
 
     <p class="login-text">
