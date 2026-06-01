@@ -164,6 +164,12 @@
   text-align: center;
 }
 
+.loading-message {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: 48px 0;
+}
+
 .buttons-container {
   display: flex;
   justify-content: space-between;

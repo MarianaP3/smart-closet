@@ -94,6 +94,8 @@
       <p class="error-message">{{ errorMessage() }}</p>
     }
 
-    <button class="button" type="submit">Guardar armario</button>
+    <button class="button" type="submit" [disabled]="isSaving()">
+      {{ isSaving() ? 'Guardando...' : 'Guardar armario' }}
+    </button>
   </form>
 </div>

@@ -48,6 +48,11 @@
   </p>
 </section>
 
+@if (isLoading()) {
+  <p class="empty-state">Cargando armarios...</p>
+} @else if (errorMessage()) {
+  <p class="empty-state">{{ errorMessage() }}</p>
+} @else {
 <section class="wardrobes-list">
   @for (wardrobe of filteredWardrobes(); track wardrobe.id) {
     <article class="wardrobe-section">
@@ -75,6 +80,13 @@
       </div>
     </article>
   } @empty {
-    <p class="empty-state">No se encontraron armarios con esos filtros.</p>
+    <p class="empty-state">
+      @if (wardrobes().length === 0) {
+        Aún no tienes armarios. <a routerLink="/new-armario">Crea el primero</a>.
+      } @else {
+        No se encontraron armarios con esos filtros.
+      }
+    </p>
   }
 </section>
+}

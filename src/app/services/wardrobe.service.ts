@@ -1,37 +1,46 @@
 import { Injectable, inject, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, tap } from 'rxjs';
 import { Wardrobe } from '../interfaces/wardrobe.interface';
 import { Garment } from '../interfaces/garment.interface';
 import { GarmentService } from './garment.service';
 
-const INITIAL_WARDROBES: Wardrobe[] = [
-  {
-    id: '1',
-    name: 'Closet principal',
-    location: 'Recámara',
-    description: 'Prendas que uso a diario',
-    garmentIds: ['1', '2', '3', '4', '5', '6', '7', '8'],
-  },
-  {
-    id: '2',
-    name: 'Calzado y accesorios',
-    location: 'Entrada',
-    description: 'Zapatos, bolsos y complementos',
-    garmentIds: ['9', '10', '11', '12', '13', '14', '15', '16'],
-  },
-];
-
-@Injectable({ 
-  providedIn: 'root' 
+@Injectable({
+  providedIn: 'root',
 })
 export class WardrobeService {
-  constructor() { }
+  private apiUrl = 'http://localhost:8080/api/armarios';
   private garmentService = inject(GarmentService);
-  private wardrobes = signal<Wardrobe[]>(INITIAL_WARDROBES);
+  private wardrobes = signal<Wardrobe[]>([]);
 
   readonly allWardrobes = this.wardrobes.asReadonly();
 
+  constructor(private http: HttpClient) {}
+
+  loadWardrobes(): Observable<Wardrobe[]> {
+    return this.http.get<Wardrobe[]>(this.apiUrl).pipe(
+      tap((wardrobes) => this.wardrobes.set(wardrobes)),
+    );
+  }
+
   getById(id: string): Wardrobe | undefined {
     return this.wardrobes().find((wardrobe) => wardrobe.id === id);
+  }
+
+  getByIdFromApi(id: string): Observable<Wardrobe> {
+    return this.http.get<Wardrobe>(`${this.apiUrl}/${id}`).pipe(
+      tap((wardrobe) => {
+        const exists = this.wardrobes().some((item) => item.id === wardrobe.id);
+
+        if (exists) {
+          this.wardrobes.update((items) =>
+            items.map((item) => (item.id === wardrobe.id ? wardrobe : item)),
+          );
+        } else {
+          this.wardrobes.update((items) => [...items, wardrobe]);
+        }
+      }),
+    );
   }
 
   getGarmentsForWardrobe(wardrobe: Wardrobe): Garment[] {
@@ -40,28 +49,40 @@ export class WardrobeService {
       .filter((garment): garment is Garment => garment !== undefined);
   }
 
-  addWardrobe(wardrobe: Omit<Wardrobe, 'id'>): void {
-    const nextId = String(
-      Math.max(0, ...this.wardrobes().map((item) => Number(item.id))) + 1,
-    );
-
-    this.wardrobes.update((wardrobes) => [
-      ...wardrobes,
-      { id: nextId, ...wardrobe },
-    ]);
-  }
-
-  updateWardrobe(id: string, changes: Omit<Wardrobe, 'id'>): void {
-    this.wardrobes.update((wardrobes) =>
-      wardrobes.map((wardrobe) =>
-        wardrobe.id === id ? { id, ...changes } : wardrobe,
+  addWardrobe(wardrobe: Omit<Wardrobe, 'id'>): Observable<Wardrobe> {
+    return this.http.post<Wardrobe>(this.apiUrl, wardrobe).pipe(
+      tap((created) =>
+        this.wardrobes.update((wardrobes) => [...wardrobes, created]),
       ),
     );
   }
 
-  deleteWardrobe(id: string): void {
-    this.wardrobes.update((wardrobes) =>
-      wardrobes.filter((wardrobe) => wardrobe.id !== id),
+  updateWardrobe(
+    id: string,
+    changes: Omit<Wardrobe, 'id'>,
+  ): Observable<Wardrobe> {
+    return this.http.put<Wardrobe>(`${this.apiUrl}/${id}`, changes).pipe(
+      tap((updated) =>
+        this.wardrobes.update((wardrobes) =>
+          wardrobes.map((wardrobe) =>
+            wardrobe.id === id ? updated : wardrobe,
+          ),
+        ),
+      ),
     );
+  }
+
+  deleteWardrobe(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
+      tap(() =>
+        this.wardrobes.update((wardrobes) =>
+          wardrobes.filter((wardrobe) => wardrobe.id !== id),
+        ),
+      ),
+    );
+  }
+
+  clearWardrobes(): void {
+    this.wardrobes.set([]);
   }
 }

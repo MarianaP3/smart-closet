@@ -17,16 +17,12 @@ export class NewArmarioPageComponent implements OnInit {
   private wardrobeService = inject(WardrobeService);
   private router = inject(Router);
 
-  ngOnInit(): void {
-    this.authService.redirectIfNotUserArea();
-    this.garmentService.loadGarments().subscribe();
-  }
-
   public name = signal('');
   public location = signal('');
   public description = signal('');
   public selectedGarmentIds = signal<string[]>([]);
   public errorMessage = signal('');
+  public isSaving = signal(false);
 
   public garments = this.garmentService.allGarments;
 
@@ -44,6 +40,11 @@ export class NewArmarioPageComponent implements OnInit {
       this.selectedGarmentIds().includes(garment.id),
     ),
   );
+
+  ngOnInit(): void {
+    this.authService.redirectIfNotUserArea();
+    this.garmentService.loadGarments().subscribe();
+  }
 
   updateName(event: Event): void {
     this.name.set((event.target as HTMLInputElement).value);
@@ -88,13 +89,37 @@ export class NewArmarioPageComponent implements OnInit {
       return;
     }
 
-    this.wardrobeService.addWardrobe({
-      name: this.name().trim(),
-      location: this.location(),
-      description: this.description().trim(),
-      garmentIds: this.selectedGarmentIds(),
-    });
+    this.isSaving.set(true);
 
-    this.router.navigate(['/armarios']);
+    this.wardrobeService
+      .addWardrobe({
+        name: this.name().trim(),
+        location: this.location(),
+        description: this.description().trim(),
+        garmentIds: this.selectedGarmentIds(),
+      })
+      .subscribe({
+        next: () => this.router.navigate(['/armarios']),
+        error: (error) => {
+          this.isSaving.set(false);
+          this.errorMessage.set(this.getErrorMessage(error));
+        },
+      });
+  }
+
+  private getErrorMessage(error: { status?: number; error?: { msg?: string } }): string {
+    if (error.status === 0) {
+      return 'No se pudo conectar con el servidor. Verifica que el backend esté corriendo.';
+    }
+
+    if (error.status === 401) {
+      return 'Tu sesión expiró. Inicia sesión de nuevo.';
+    }
+
+    if (error.status === 404) {
+      return 'Ruta no encontrada en el servidor. Reinicia el backend (npm start en nodejs).';
+    }
+
+    return error.error?.msg ?? 'No se pudo crear el armario. Intenta de nuevo.';
   }
 }

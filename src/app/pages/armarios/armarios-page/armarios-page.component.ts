@@ -16,12 +16,9 @@ export class ArmariosPageComponent implements OnInit {
   private garmentService = inject(GarmentService);
   private wardrobeService = inject(WardrobeService);
 
-  ngOnInit(): void {
-    this.authService.redirectIfNotUserArea();
-    this.garmentService.loadGarments().subscribe();
-  }
-
   public wardrobes = this.wardrobeService.allWardrobes;
+  public isLoading = signal(true);
+  public errorMessage = signal('');
 
   public filterSearch = signal('');
   public filterLocation = signal('');
@@ -54,6 +51,32 @@ export class ArmariosPageComponent implements OnInit {
       })),
   );
 
+  ngOnInit(): void {
+    this.authService.redirectIfNotUserArea();
+    this.loadData();
+  }
+
+  loadData(): void {
+    this.isLoading.set(true);
+    this.errorMessage.set('');
+
+    this.garmentService.loadGarments().subscribe({
+      next: () => {
+        this.wardrobeService.loadWardrobes().subscribe({
+          next: () => this.isLoading.set(false),
+          error: (error) => {
+            this.isLoading.set(false);
+            this.errorMessage.set(this.getErrorMessage(error));
+          },
+        });
+      },
+      error: (error) => {
+        this.isLoading.set(false);
+        this.errorMessage.set(this.getErrorMessage(error));
+      },
+    });
+  }
+
   updateFilterSearch(event: Event): void {
     this.filterSearch.set((event.target as HTMLInputElement).value);
   }
@@ -65,5 +88,17 @@ export class ArmariosPageComponent implements OnInit {
   clearFilters(): void {
     this.filterSearch.set('');
     this.filterLocation.set('');
+  }
+
+  private getErrorMessage(error: { status?: number; error?: { msg?: string } }): string {
+    if (error.status === 0) {
+      return 'No se pudo conectar con el servidor. Verifica que el backend esté corriendo.';
+    }
+
+    if (error.status === 401) {
+      return 'Tu sesión expiró. Inicia sesión de nuevo.';
+    }
+
+    return error.error?.msg ?? 'No se pudieron cargar tus armarios.';
   }
 }

@@ -24,6 +24,8 @@ export class EditArmarioPageComponent implements OnInit {
   public description = signal('');
   public selectedGarmentIds = signal<string[]>([]);
   public errorMessage = signal('');
+  public isSaving = signal(false);
+  public isLoading = signal(true);
 
   public garments = this.garmentService.allGarments;
 
@@ -44,7 +46,6 @@ export class EditArmarioPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.redirectIfNotUserArea();
-    this.garmentService.loadGarments().subscribe();
 
     const id = this.route.snapshot.paramMap.get('id');
 
@@ -53,18 +54,26 @@ export class EditArmarioPageComponent implements OnInit {
       return;
     }
 
-    const wardrobe = this.wardrobeService.getById(id);
-
-    if (!wardrobe) {
-      this.router.navigate(['/not-found']);
-      return;
-    }
-
-    this.wardrobeId.set(wardrobe.id);
-    this.name.set(wardrobe.name);
-    this.location.set(wardrobe.location);
-    this.description.set(wardrobe.description);
-    this.selectedGarmentIds.set([...wardrobe.garmentIds]);
+    this.garmentService.loadGarments().subscribe({
+      next: () => {
+        this.wardrobeService.getByIdFromApi(id).subscribe({
+          next: (wardrobe) => {
+            this.wardrobeId.set(wardrobe.id);
+            this.name.set(wardrobe.name);
+            this.location.set(wardrobe.location);
+            this.description.set(wardrobe.description);
+            this.selectedGarmentIds.set([...wardrobe.garmentIds]);
+            this.isLoading.set(false);
+          },
+          error: () => {
+            this.router.navigate(['/not-found']);
+          },
+        });
+      },
+      error: () => {
+        this.router.navigate(['/not-found']);
+      },
+    });
   }
 
   updateName(event: Event): void {
@@ -110,18 +119,41 @@ export class EditArmarioPageComponent implements OnInit {
       return;
     }
 
-    this.wardrobeService.updateWardrobe(this.wardrobeId(), {
-      name: this.name().trim(),
-      location: this.location(),
-      description: this.description().trim(),
-      garmentIds: this.selectedGarmentIds(),
-    });
+    this.isSaving.set(true);
 
-    this.router.navigate(['/armarios']);
+    this.wardrobeService
+      .updateWardrobe(this.wardrobeId(), {
+        name: this.name().trim(),
+        location: this.location(),
+        description: this.description().trim(),
+        garmentIds: this.selectedGarmentIds(),
+      })
+      .subscribe({
+        next: () => this.router.navigate(['/armarios']),
+        error: (error) => {
+          this.isSaving.set(false);
+          this.errorMessage.set(this.getErrorMessage(error));
+        },
+      });
   }
 
   deleteWardrobe(): void {
-    this.wardrobeService.deleteWardrobe(this.wardrobeId());
-    this.router.navigate(['/armarios']);
+    this.wardrobeService.deleteWardrobe(this.wardrobeId()).subscribe({
+      next: () => this.router.navigate(['/armarios']),
+      error: (error) =>
+        this.errorMessage.set(this.getErrorMessage(error)),
+    });
+  }
+
+  private getErrorMessage(error: { status?: number; error?: { msg?: string } }): string {
+    if (error.status === 0) {
+      return 'No se pudo conectar con el servidor. Verifica que el backend esté corriendo.';
+    }
+
+    if (error.status === 401) {
+      return 'Tu sesión expiró. Inicia sesión de nuevo.';
+    }
+
+    return error.error?.msg ?? 'No se pudo guardar el armario. Intenta de nuevo.';
   }
 }

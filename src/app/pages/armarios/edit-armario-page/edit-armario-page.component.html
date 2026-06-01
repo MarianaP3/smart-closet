@@ -1,6 +1,9 @@
 <div class="page">
   <a routerLink="/armarios" class="back-link">← Volver a armarios</a>
 
+  @if (isLoading()) {
+    <p class="loading-message">Cargando armario...</p>
+  } @else {
   <section class="page-header">
     <p class="hero-label">Editar armario</p>
     <h1 class="title">Modificar armario</h1>
@@ -92,10 +95,13 @@
     }
 
     <div class="buttons-container">
-      <button class="button" type="submit">Guardar cambios</button>
+      <button class="button" type="submit" [disabled]="isSaving()">
+        {{ isSaving() ? 'Guardando...' : 'Guardar cambios' }}
+      </button>
       <button class="delete-button" type="button" (click)="deleteWardrobe()">
         Eliminar armario
       </button>
     </div>
   </form>
+  }
 </div>

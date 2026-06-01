@@ -17,6 +17,7 @@ class Server{
         this.garmentPath = "/api/garment"
         this.authPath = "/api/auth"
         this.outfits = "/api/outfits"
+        this.armariosPath = "/api/armarios"
 
         
         this.middlewares()
@@ -28,6 +29,7 @@ class Server{
         this.app.use(this.usersPath, require('../routes/users'));
         this.app.use(this.garmentPath, require('../routes/garment'));
         this.app.use(this.outfits, require('../routes/outfit'));
+        this.app.use(this.armariosPath, require('../routes/wardrobe'));
         this.app.use(this.authPath, require('../routes/auth'));
 
         this.app.get('*', function (req, res) {
