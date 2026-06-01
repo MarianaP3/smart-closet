@@ -2,6 +2,7 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { GarmentCardComponent } from '../../../components/garment-card/garment-card.component';
 import { AuthService } from '../../../services/auth.service';
+import { GarmentService } from '../../../services/garment.service';
 import { WardrobeService } from '../../../services/wardrobe.service';
 
 @Component({
@@ -12,10 +13,12 @@ import { WardrobeService } from '../../../services/wardrobe.service';
 })
 export class ArmariosPageComponent implements OnInit {
   private authService = inject(AuthService);
+  private garmentService = inject(GarmentService);
   private wardrobeService = inject(WardrobeService);
 
   ngOnInit(): void {
     this.authService.redirectIfNotUserArea();
+    this.garmentService.loadGarments().subscribe();
   }
 
   public wardrobes = this.wardrobeService.allWardrobes;

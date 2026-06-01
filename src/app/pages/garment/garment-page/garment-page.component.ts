@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { GarmentCardComponent } from '../../../components/garment-card/garment-card.component';
 import { CategoryService } from '../../../services/category.service';
@@ -11,17 +11,15 @@ import { AuthService } from '../../../services/auth.service';
   templateUrl: './garment-page.component.html',
   styleUrl: './garment-page.component.css',
 })
-export class InventoryPageComponent {
+export class InventoryPageComponent implements OnInit {
   private garmentService = inject(GarmentService);
   private categoryService = inject(CategoryService);
   private authService = inject(AuthService);
 
-  ngOnInit(): void {
-    this.authService.redirectIfNotUserArea();
-  }
-
   public garments = this.garmentService.allGarments;
   public categories = this.categoryService.allCategories;
+  public isLoading = signal(true);
+  public errorMessage = signal('');
 
   public filterName = signal('');
   public filterCategoryId = signal('');
@@ -51,6 +49,24 @@ export class InventoryPageComponent {
     }),
   );
 
+  ngOnInit(): void {
+    this.authService.redirectIfNotUserArea();
+    this.loadGarments();
+  }
+
+  loadGarments(): void {
+    this.isLoading.set(true);
+    this.errorMessage.set('');
+
+    this.garmentService.loadGarments().subscribe({
+      next: () => this.isLoading.set(false),
+      error: (error) => {
+        this.isLoading.set(false);
+        this.errorMessage.set(this.getErrorMessage(error));
+      },
+    });
+  }
+
   updateFilterName(event: Event): void {
     this.filterName.set((event.target as HTMLInputElement).value);
   }
@@ -72,5 +88,17 @@ export class InventoryPageComponent {
     this.filterCategoryId.set('');
     this.filterColor.set('');
     this.filterSize.set('');
+  }
+
+  private getErrorMessage(error: { status?: number; error?: { msg?: string } }): string {
+    if (error.status === 0) {
+      return 'No se pudo conectar con el servidor. Verifica que el backend esté corriendo.';
+    }
+
+    if (error.status === 401) {
+      return 'Tu sesión expiró. Inicia sesión de nuevo.';
+    }
+
+    return error.error?.msg ?? 'No se pudo cargar tu inventario.';
   }
 }

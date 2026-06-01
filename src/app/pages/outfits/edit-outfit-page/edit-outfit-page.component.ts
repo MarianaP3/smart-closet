@@ -53,11 +53,7 @@ export class EditOutfitPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.redirectIfNotUserArea();
-
-    if (!this.authService.isUser()) {
-      this.router.navigate(['/not-found']);
-      return;
-    }
+    this.garmentService.loadGarments().subscribe();
 
     const id = this.route.snapshot.paramMap.get('id');
 

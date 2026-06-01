@@ -1,6 +1,9 @@
 <div class="page">
   <a routerLink="/inventory" class="back-link">← Volver al inventario</a>
 
+  @if (isLoading()) {
+    <p class="loading-message">Cargando prenda...</p>
+  } @else {
   <div class="layout">
     <section class="preview">
       <p class="hero-label">Detalle de prenda</p>
@@ -89,8 +92,14 @@
           />
         </div>
 
-        <button class="button" type="submit">Guardar cambios</button>
+        @if (errorMessage()) {
+          <p class="error-message">{{ errorMessage() }}</p>
+        }
+        <button class="button" type="submit" [disabled]="isSaving()">
+          {{ isSaving() ? 'Guardando...' : 'Guardar cambios' }}
+        </button>
       </form>
     </section>
   </div>
+  }
 </div>

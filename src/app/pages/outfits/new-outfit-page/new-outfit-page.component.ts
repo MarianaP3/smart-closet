@@ -19,6 +19,7 @@ export class NewOutfitPageComponent {
 
   ngOnInit(): void {
     this.authService.redirectIfNotUserArea();
+    this.garmentService.loadGarments().subscribe();
   }
 
   public name = signal('');

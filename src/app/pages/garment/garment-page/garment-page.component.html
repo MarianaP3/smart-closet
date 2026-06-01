@@ -74,12 +74,24 @@
   </p>
 </section>
 
+@if (isLoading()) {
+  <p class="empty-state">Cargando inventario...</p>
+} @else if (errorMessage()) {
+  <p class="empty-state">{{ errorMessage() }}</p>
+} @else {
 <section class="container">
   @for (garment of filteredGarments(); track garment.id) {
     <a [routerLink]="['/inventory', garment.id]" class="card-link">
       <app-garment-card [garment]="garment"></app-garment-card>
     </a>
   } @empty {
-    <p class="empty-state">No se encontraron prendas con esos filtros.</p>
+    <p class="empty-state">
+      @if (garments().length === 0) {
+        Aún no tienes prendas. <a routerLink="/new-garment">Agrega la primera</a>.
+      } @else {
+        No se encontraron prendas con esos filtros.
+      }
+    </p>
   }
 </section>
+}

@@ -44,6 +44,7 @@ export class EditArmarioPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.redirectIfNotUserArea();
+    this.garmentService.loadGarments().subscribe();
 
     const id = this.route.snapshot.paramMap.get('id');
 

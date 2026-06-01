@@ -1,37 +1,84 @@
 <div class="mainContainer">
+    <a routerLink="/inventory" class="back-link">← Volver al inventario</a>
     <p class="hero-label">Nueva entrada</p>
     <div class="title">Agregar a mi Closet</div>
     <p class="subtitle">Completa los detalles para incluir una nueva prenda en tu closet.</p>
     <div class="divider"></div>
     <div class="formContainer">
-        <form>
+        <form (submit)="save($event)">
         <div class="label">
             <label for="garmentName">Nombre de la prenda:</label>
-            <input class="inputField" id="garmentName" name="garmentName" required>
+            <input
+              class="inputField"
+              id="garmentName"
+              name="garmentName"
+              [value]="name()"
+              (input)="updateName($event)"
+              required
+            >
         </div>
         <div class="label">
-            <label for="garmentType">Tipo de prenda:</label>
-            <input class="inputField" type="text" id="garmentType" name="garmentType" required>
+            <label for="garmentType">Categoría:</label>
+            <select
+              class="inputField"
+              id="garmentType"
+              name="garmentType"
+              [value]="categoryId()"
+              (change)="updateCategory($event)"
+              required
+            >
+                @for (category of categories(); track category.id) {
+                    <option [value]="category.id">{{ category.name }}</option>
+                }
+            </select>
         </div>
         <div class="label">
             <label for="garmentColor">Color:</label>
-            <input class="inputField" type="text" id="garmentColor" name="garmentColor" required>
+            <input
+              class="inputField"
+              type="text"
+              id="garmentColor"
+              name="garmentColor"
+              [value]="color()"
+              (input)="updateColor($event)"
+              required
+            >
         </div>
         <div class="label" id="region">
             <label for="garmentSize">Talla:</label>
-            <select class="inputField" required>
-                @for (size of sizes; track size) {
-                    <option [value]="size">
-                        {{ size }}
+            <select
+              class="inputField"
+              id="garmentSize"
+              name="garmentSize"
+              [value]="size()"
+              (change)="updateSize($event)"
+              required
+            >
+                @for (garmentSize of sizes; track garmentSize) {
+                    <option [value]="garmentSize">
+                        {{ garmentSize }}
                     </option>
                 }
             </select>
         </div>
         <div class="label">
             <label for="garmentImage">Imagen (URL):</label>
-            <input class="inputField" type="text" id="garmentImage" name="garmentImage" required>
+            <input
+              class="inputField"
+              type="text"
+              id="garmentImage"
+              name="garmentImage"
+              [value]="image()"
+              (input)="updateImage($event)"
+              required
+            >
         </div>
-        <button class="button" type="submit">Agregar a mi Closet</button>
+        @if (errorMessage()) {
+          <p class="error-message">{{ errorMessage() }}</p>
+        }
+        <button class="button" type="submit" [disabled]="isSaving()">
+          {{ isSaving() ? 'Guardando...' : 'Agregar a mi Closet' }}
+        </button>
     </form>
     </div>
 </div>

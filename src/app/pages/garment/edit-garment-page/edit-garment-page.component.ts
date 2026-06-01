@@ -23,6 +23,9 @@ export class EditGarmentPageComponent implements OnInit {
   public color = signal('');
   public size = signal('');
   public image = signal('');
+  public errorMessage = signal('');
+  public isSaving = signal(false);
+  public isLoading = signal(true);
 
   public categories = this.categoryService.allCategories;
   public sizes = ['XS', 'S', 'M', 'L', 'XL', '22', '24', '26', 'Única'];
@@ -42,19 +45,20 @@ export class EditGarmentPageComponent implements OnInit {
       return;
     }
 
-    const garment = this.garmentService.getById(id);
-
-    if (!garment) {
-      this.router.navigate(['/not-found']);
-      return;
-    }
-
-    this.garmentId.set(garment.id);
-    this.name.set(garment.name);
-    this.categoryId.set(garment.categoryId);
-    this.color.set(garment.color);
-    this.size.set(garment.size);
-    this.image.set(garment.image);
+    this.garmentService.getByIdFromApi(id).subscribe({
+      next: (garment) => {
+        this.garmentId.set(garment.id);
+        this.name.set(garment.name);
+        this.categoryId.set(garment.categoryId);
+        this.color.set(garment.color);
+        this.size.set(garment.size);
+        this.image.set(garment.image);
+        this.isLoading.set(false);
+      },
+      error: () => {
+        this.router.navigate(['/not-found']);
+      },
+    });
   }
 
   updateName(event: Event): void {
@@ -78,28 +82,53 @@ export class EditGarmentPageComponent implements OnInit {
   }
 
   deleteGarment(): void {
-    this.garmentService.deleteGarment(this.garmentId());
-    this.router.navigate(['/inventory']);
+    this.garmentService.deleteGarment(this.garmentId()).subscribe({
+      next: () => this.router.navigate(['/inventory']),
+      error: (error) =>
+        this.errorMessage.set(this.getErrorMessage(error)),
+    });
   }
 
   save(event: Event): void {
     event.preventDefault();
+    this.errorMessage.set('');
 
     const category = this.categoryService.getById(this.categoryId());
 
     if (!category) {
+      this.errorMessage.set('Selecciona una categoría válida.');
       return;
     }
 
-    this.garmentService.updateGarment(this.garmentId(), {
-      name: this.name(),
-      type: category.name,
-      categoryId: this.categoryId(),
-      color: this.color(),
-      size: this.size(),
-      image: this.image(),
-    });
+    this.isSaving.set(true);
 
-    this.router.navigate(['/inventory']);
+    this.garmentService
+      .updateGarment(this.garmentId(), {
+        name: this.name().trim(),
+        type: category.name,
+        categoryId: this.categoryId(),
+        color: this.color().trim(),
+        size: this.size(),
+        image: this.image().trim(),
+      })
+      .subscribe({
+        next: () => this.router.navigate(['/inventory']),
+        error: (error) => {
+          this.isSaving.set(false);
+          this.errorMessage.set(this.getErrorMessage(error));
+        },
+      });
+  }
+
+  private getErrorMessage(error: { status?: number; error?: { msg?: string } }): string {
+    if (error.status === 0) {
+      return 'No se pudo conectar con el servidor. Verifica que el backend esté corriendo.';
+    }
+
+    if (error.status === 401) {
+      return 'Tu sesión expiró. Inicia sesión de nuevo.';
+    }
+
+    return error.error?.msg ?? 'No se pudo guardar la prenda. Intenta de nuevo.';
   }
 }
