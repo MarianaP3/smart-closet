@@ -14,13 +14,15 @@ export class NewCategoriaPageComponent implements OnInit {
   private categoryService = inject(CategoryService);
   private router = inject(Router);
 
-  ngOnInit(): void {
-    this.authService.redirectIfNotAdmin();
-  }
-
   public name = signal('');
   public description = signal('');
   public errorMessage = signal('');
+  public isSaving = signal(false);
+
+  ngOnInit(): void {
+    this.authService.redirectIfNotAdmin();
+    this.categoryService.loadCategories().subscribe();
+  }
 
   updateName(event: Event): void {
     this.name.set((event.target as HTMLInputElement).value);
@@ -51,11 +53,31 @@ export class NewCategoriaPageComponent implements OnInit {
       return;
     }
 
-    this.categoryService.addCategory({
-      name: this.name().trim(),
-      description: this.description().trim(),
-    });
+    this.isSaving.set(true);
 
-    this.router.navigate(['/categorias']);
+    this.categoryService
+      .addCategory({
+        name: this.name().trim(),
+        description: this.description().trim(),
+      })
+      .subscribe({
+        next: () => this.router.navigate(['/categorias']),
+        error: (error) => {
+          this.isSaving.set(false);
+          this.errorMessage.set(this.getErrorMessage(error));
+        },
+      });
+  }
+
+  private getErrorMessage(error: { status?: number; error?: { msg?: string } }): string {
+    if (error.status === 0) {
+      return 'No se pudo conectar con el servidor. Verifica que el backend esté corriendo.';
+    }
+
+    if (error.status === 403) {
+      return 'No tienes permisos para crear categorías.';
+    }
+
+    return error.error?.msg ?? 'No se pudo crear la categoría. Intenta de nuevo.';
   }
 }

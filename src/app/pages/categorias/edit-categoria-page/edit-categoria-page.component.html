@@ -1,6 +1,9 @@
 <div class="page">
   <a routerLink="/categorias" class="back-link">← Volver a categorías</a>
 
+  @if (isLoading()) {
+    <p class="loading-message">Cargando categoría...</p>
+  } @else {
   <section class="page-header">
     <p class="hero-label">Editar categoría</p>
     <h1 class="title">Modificar categoría</h1>
@@ -56,10 +59,13 @@
     }
 
     <div class="buttons-container">
-      <button class="button" type="submit">Guardar cambios</button>
+      <button class="button" type="submit" [disabled]="isSaving()">
+        {{ isSaving() ? 'Guardando...' : 'Guardar cambios' }}
+      </button>
       <button class="delete-button" type="button" (click)="deleteCategory()">
         Eliminar categoría
       </button>
     </div>
   </form>
+  }
 </div>

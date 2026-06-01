@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { GarmentCardComponent } from '../../../components/garment-card/garment-card.component';
 import { AuthService } from '../../../services/auth.service';
 import { CategoryService } from '../../../services/category.service';
+import { GarmentService } from '../../../services/garment.service';
 
 @Component({
   selector: 'app-edit-categoria-page',
@@ -13,6 +14,7 @@ import { CategoryService } from '../../../services/category.service';
 export class EditCategoriaPageComponent implements OnInit {
   private authService = inject(AuthService);
   private categoryService = inject(CategoryService);
+  private garmentService = inject(GarmentService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
@@ -20,6 +22,8 @@ export class EditCategoriaPageComponent implements OnInit {
   public name = signal('');
   public description = signal('');
   public errorMessage = signal('');
+  public isSaving = signal(false);
+  public isLoading = signal(true);
 
   public categoryGarments = computed(() => {
     const category = this.categoryService.getById(this.categoryId());
@@ -37,16 +41,24 @@ export class EditCategoriaPageComponent implements OnInit {
       return;
     }
 
-    const category = this.categoryService.getById(id);
-
-    if (!category) {
-      this.router.navigate(['/not-found']);
-      return;
-    }
-
-    this.categoryId.set(category.id);
-    this.name.set(category.name);
-    this.description.set(category.description);
+    this.garmentService.loadGarments().subscribe({
+      next: () => {
+        this.categoryService.getByIdFromApi(id).subscribe({
+          next: (category) => {
+            this.categoryId.set(category.id);
+            this.name.set(category.name);
+            this.description.set(category.description);
+            this.isLoading.set(false);
+          },
+          error: () => {
+            this.router.navigate(['/not-found']);
+          },
+        });
+      },
+      error: () => {
+        this.router.navigate(['/not-found']);
+      },
+    });
   }
 
   updateName(event: Event): void {
@@ -79,26 +91,44 @@ export class EditCategoriaPageComponent implements OnInit {
       return;
     }
 
-    this.categoryService.updateCategory(this.categoryId(), {
-      name: this.name().trim(),
-      description: this.description().trim(),
-    });
+    this.isSaving.set(true);
 
-    this.router.navigate(['/categorias']);
+    this.categoryService
+      .updateCategory(this.categoryId(), {
+        name: this.name().trim(),
+        description: this.description().trim(),
+      })
+      .subscribe({
+        next: () => {
+          this.garmentService.loadGarments().subscribe();
+          this.router.navigate(['/categorias']);
+        },
+        error: (error) => {
+          this.isSaving.set(false);
+          this.errorMessage.set(this.getErrorMessage(error));
+        },
+      });
   }
 
   deleteCategory(): void {
     this.errorMessage.set('');
 
-    const deleted = this.categoryService.deleteCategory(this.categoryId());
+    this.categoryService.deleteCategory(this.categoryId()).subscribe({
+      next: () => this.router.navigate(['/categorias']),
+      error: (error) =>
+        this.errorMessage.set(this.getErrorMessage(error)),
+    });
+  }
 
-    if (!deleted) {
-      this.errorMessage.set(
-        'No puedes eliminar una categoría que tiene prendas asignadas.',
-      );
-      return;
+  private getErrorMessage(error: { status?: number; error?: { msg?: string } }): string {
+    if (error.status === 0) {
+      return 'No se pudo conectar con el servidor. Verifica que el backend esté corriendo.';
     }
 
-    this.router.navigate(['/categorias']);
+    if (error.status === 403) {
+      return 'No tienes permisos para modificar categorías.';
+    }
+
+    return error.error?.msg ?? 'No se pudo guardar la categoría. Intenta de nuevo.';
   }
 }

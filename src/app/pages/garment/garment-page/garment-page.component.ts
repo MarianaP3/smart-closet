@@ -51,6 +51,7 @@ export class InventoryPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.redirectIfNotUserArea();
+    this.categoryService.loadCategories().subscribe();
     this.loadGarments();
   }
 

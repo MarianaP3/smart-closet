@@ -37,6 +37,7 @@ export class EditGarmentPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.redirectIfNotUserArea();
+    this.categoryService.loadCategories().subscribe();
 
     const id = this.route.snapshot.paramMap.get('id');
 

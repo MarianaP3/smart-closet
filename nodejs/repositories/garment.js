@@ -51,6 +51,17 @@ class GarmentRepository {
       user: userId,
     });
   }
+
+  static async countByCategoryId(categoryId) {
+    return await Garment.countDocuments({ categoryId });
+  }
+
+  static async syncTypeByCategoryId(categoryId, typeName) {
+    return await Garment.updateMany(
+      { categoryId },
+      { $set: { type: typeName } },
+    );
+  }
 }
 
 module.exports = { GarmentRepository };

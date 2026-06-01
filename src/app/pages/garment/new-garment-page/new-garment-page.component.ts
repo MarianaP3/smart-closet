@@ -29,11 +29,14 @@ export class NewGarmentPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.redirectIfNotUserArea();
-
-    const firstCategory = this.categories()[0];
-    if (firstCategory) {
-      this.categoryId.set(firstCategory.id);
-    }
+    this.categoryService.loadCategories().subscribe({
+      next: () => {
+        const firstCategory = this.categories()[0];
+        if (firstCategory) {
+          this.categoryId.set(firstCategory.id);
+        }
+      },
+    });
   }
 
   updateName(event: Event): void {
